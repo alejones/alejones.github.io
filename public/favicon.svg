@@ -1,34 +1,13 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <!-- Background with water blue color -->
-  <rect width="128" height="128" rx="16" fill="#d9f2fd" />
-  
-  <!-- Pool Water Lines/Ripples -->
-  <path d="M0 20 C32 12, 96 28, 128 20" stroke="#b3e0f2" stroke-width="4" fill="none" />
-  <path d="M0 40 C32 32, 96 48, 128 40" stroke="#b3e0f2" stroke-width="4" fill="none" />
-  <path d="M0 110 C32 102, 96 118, 128 110" stroke="#b3e0f2" stroke-width="4" fill="none" />
-  
-  <!-- Pool Lane Line - Alternating Red and White Segments -->
-  
-  <!-- Red Segments -->
-  <rect x="10" y="52" width="20" height="24" rx="8" fill="#e74c3c" />
-  <rect x="54" y="52" width="20" height="24" rx="8" fill="#e74c3c" />
-  <rect x="98" y="52" width="20" height="24" rx="8" fill="#e74c3c" />
-  
-  <!-- White Segments -->
-  <rect x="32" y="52" width="20" height="24" rx="8" fill="#ffffff" />
-  <rect x="76" y="52" width="20" height="24" rx="8" fill="#ffffff" />
-  
-  <!-- Lane Line Rope/Cable -->
-  <line x1="0" y1="64" x2="128" y2="64" stroke="#1a5276" stroke-width="2" />
-  
-  <!-- Dark Mode Support -->
-  <style>
-    @media (prefers-color-scheme: dark) {
-      rect:first-child { fill: #0d3b54; }
-      path { stroke: #1e5f74; }
-      rect[fill="#ffffff"] { fill: #f0f0f0; }
-      rect[fill="#e74c3c"] { fill: #c0392b; }
-      line { stroke: #a2cfe2; }
-    }
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- Transparent background (no rect element) -->
+    <!-- Enlarged diamonds with adjusted positions -->
+    <path d="M15 30 L50 5 L85 30 L50 55 Z" fill="#3498db"/>
+    <path d="M15 52.5 L50 27.5 L85 52.5 L50 77.5 Z" fill="#ffffff"/>
+    <path d="M15 75 L50 50 L85 75 L50 100 Z" fill="#333333"/>
+    <!-- Dark mode support -->
+    <style>
+        @media (prefers-color-scheme: dark) {
+            path:nth-of-type(3) { fill: #666666; }
+        }
+    </style>
 </svg>
