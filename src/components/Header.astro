@@ -1,8 +1,7 @@
 ---
-import HeaderLink from './HeaderLink.astro';
 import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
 ---
-
 <header>
 	<nav>
 		<h2><a href="/">{SITE_TITLE}</a></h2>
@@ -46,40 +45,67 @@ import { SITE_TITLE } from '../consts';
 	header {
 		margin: 0;
 		padding: 0 1em;
-		background: white;
-		box-shadow: 0 2px 8px rgba(var(--black), 5%);
+		background: #121212;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	}
 	h2 {
 		margin: 0;
-		font-size: 1em;
+		font-size: 1.5em;
 	}
-
 	h2 a,
 	h2 a.active {
 		text-decoration: none;
+		color: white;
 	}
 	nav {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		padding: 1em 0;
 	}
 	nav a {
-		padding: 1em 0.5em;
-		color: var(--black);
-		border-bottom: 4px solid transparent;
+		padding: 0.5em;
+		color: #f0f0f0;
+		border-bottom: 2px solid transparent;
 		text-decoration: none;
+		margin: 0 0.2em;
+		transition: all 0.2s ease;
+	}
+	nav a:hover {
+		color: white;
+		border-bottom-color: rgba(255, 255, 255, 0.5);
 	}
 	nav a.active {
 		text-decoration: none;
-		border-bottom-color: var(--accent);
+		color: white;
+		border-bottom-color: white;
 	}
 	.social-links,
 	.social-links a {
 		display: flex;
 	}
+	.social-links a {
+		margin-left: 0.5em;
+	}
+	.social-links svg {
+		color: #f0f0f0;
+	}
+	.social-links svg:hover {
+		color: white;
+	}
+	.internal-links {
+		display: flex;
+	}
 	@media (max-width: 720px) {
 		.social-links {
 			display: none;
+		}
+		nav {
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.internal-links {
+			margin-top: 0.5em;
 		}
 	}
 </style>
