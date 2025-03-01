@@ -5,7 +5,6 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://alexjones.sh',
-  	// base: 'my-repo',
+	site: 'http://alexjones.sh',
 	integrations: [mdx(), sitemap()],
 });
