@@ -68,7 +68,7 @@ WantedBy=default.target
 | Docker Compose | Quadlet |
 |----------------|---------|
 | `ports` | `PublishPort` |
-| `volumes` (array) | `Volume` (one per line) |
+| `volumes` | `Volume` (one per line) |
 | `environment` | `Environment` |
 | `restart` | Handled by `[Service]` section |
 | Image updates | `AutoUpdate=registry` |
@@ -77,19 +77,18 @@ WantedBy=default.target
 ## Enable User Lingering
 
 Allow your user services to run without being logged in:
-
 ```bash
 sudo loginctl enable-linger $USER
 ```
 
 Verify lingering is enabled:
-
 ```bash
 loginctl show-user $USER | grep Linger
 ```
 
 You should get an output like this
 ```bash
+ajones@vm1:~$ loginctl show-user $USER | grep Linger
 Linger=yes
 ```
 
@@ -100,8 +99,7 @@ Create a GitHub Personal Access Token with `read:packages` scope at: GitHub → 
 Login to GHCR:
 
 ```bash
-ajones@vm1:~$ loginctl show-user $USER | grep Linger
-Linger=yes
+podman login ghcr.io
 ```
 
 Use your GitHub username and the Access Token as the password.
@@ -124,6 +122,12 @@ The service should auto-enable due to `WantedBy=default.target` in the quadlet. 
 systemctl --user is-enabled my_container.service
 ```
 
+You should see
+```bash
+ajones@vm1:~$ systemctl --user is-enabled my_container.service
+generated
+```
+
 ## Did it work?
 
 You don't need to do any of these, but they might be helpful if you are running into trouble.
@@ -134,10 +138,36 @@ Check the status:
 systemctl --user status my_container.service
 ```
 
-You should get this response
+You should get response like this. I'm running a streamlit app, the output will change depending on your container.
 ```bash
-ajones@vm1:~$ systemctl --user is-enabled my_container.service
-generated
+ajones@vm1:~$ systemctl --user status my_container.service
+● my_container.service
+     Loaded: loaded (/home/ajones/.config/containers/systemd/my_container.container; generated)
+     Active: active (running) since Fri 2025-05-30 17:27:39 CDT; 19min ago
+   Main PID: 19876 (conmon)
+      Tasks: 38 (limit: 76532)
+     Memory: 217.0M (peak: 221.0M)
+        CPU: 4.737s
+     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/my_container.service
+             ├─libpod-payload-cb3948b23fb910ac512f13510c101a798129a77225e3b2fe4be19afdbbb9b055
+             │ └─19888 /usr/local/bin/python3 /usr/local/bin/streamlit run app.py --server.address=0.0.0.0 --server.po>
+             └─runtime
+               ├─19854 /usr/bin/slirp4netns --disable-host-loopback --mtu=65520 --enable-sandbox --enable-seccomp --en>
+               ├─19856 rootlessport
+               ├─19862 rootlessport-child
+               └─19876 /usr/bin/conmon --api-version 1 -c cb3948b23fb910ac512f13510c101a798129a77225e3b2fe4be19afdbbb9>
+
+May 30 17:27:39 vm1 podman[19834]: 2025-05-30 17:27:39.633683542 -0500 CDT m=+0.020642742 image pull 1a42d82c72d>
+May 30 17:27:39 vm1 podman[19834]: 2025-05-30 17:27:39.812141436 -0500 CDT m=+0.199100612 container init cb3948b>
+May 30 17:27:39 vm1 podman[19834]: 2025-05-30 17:27:39.818534127 -0500 CDT m=+0.205493308 container start cb3948>
+May 30 17:27:39 vm1 systemd[3138]: Started my_container.service.
+May 30 17:27:39 vm1 my_container[19834]: cb3948b23fb910ac512f13510c101a798129a77225e3b2fe4be19afdbbb9b055
+May 30 17:27:40 vm1 systemd-my_container[19876]: 
+May 30 17:27:40 vm1 systemd-my_container[19876]:   You can now view your Streamlit app in your browser.
+May 30 17:27:40 vm1 systemd-my_container[19876]: 
+May 30 17:27:40 vm1 systemd-my_container[19876]:   URL: http://0.0.0.0:8501
+May 30 17:27:40 vm1 systemd-my_container[19876]: 
+
 ```
 
 
