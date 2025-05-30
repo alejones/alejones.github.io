@@ -5,14 +5,14 @@ pubDate: 'May 30 2025'
 heroImage: '/4seals.webp'
 ---
 # Why do this?
-For the applications I run, a full k8s set up would be overkill. Yet, I'd like something more robust than using Podman Compose. For these cases I reach for quadlets.
-This allows for my containers to automatically start up and restart. So far this set up has been very reliable for me.
+For the applications I run, a full Kubernetes setup would be overkill, but I want something more robust than Podman Compose. I think Quadlets is a sweet spot for ease of use and reliability.
 
-Despite this I usually start with writing a docker compose file for quick testing. These are the steps I take to move to quadlets.
+Quadlets integrate with systemd to automatically start and restart containers, giving me the reliability I need without the complexity. So far this setup has been very reliable for me.
+
+My typical workflow starts with a Docker Compose file for quick testing and development. Once I'm ready for something long running, I convert it to a quadlet.
 
 # What am I doing
-
-Podman Quadlets provide systemd integration for containers without requiring a daemon. This guide converts a Docker Compose service to a user-specific Quadlet with GitHub Container Registry authentication.
+This guide walks through converting a Docker Compose service to a Podman Quadlet with systemd integration. I'll cover authentication with GitHub Container Registry and set up user-specific services that start automatically on boot.
 
 ## Starting Docker Compose File
 This is a dummy compose file. It's very similar to what I usually use for simple Python apps.
@@ -62,7 +62,6 @@ WantedBy=default.target
 #### Notes 
 - Use %h instead of absolute paths like /home/username/ for portability
 - AutoUpdate=registry enables automatic image updates with podman auto-update
-- The `Pull=always` option pulls the latest image on each start
 
 
 ## Key Differences
@@ -130,9 +129,25 @@ ajones@vm1:~$ systemctl --user is-enabled my_container.service
 generated
 ```
 
+## Updating Images
+
+Check for and apply image updates:
+
+```bash
+podman auto-update
+```
+
+This pulls newer images and restarts containers that have `AutoUpdate=registry` set.
+
 ## Did it work?
 
 You don't need to do any of these, but they might be helpful if you are running into trouble.
+
+Check that the container is running:
+
+```bash
+podman ps
+```
 
 Check the status:
 
