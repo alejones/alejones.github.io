@@ -50,7 +50,7 @@ Paste in the the following data
 Image=ghcr.io/alejones/my_container:latest
 AutoUpdate=registry
 PublishPort=8501:8501
-Volume=%h/avinas/Data:/app/Data
+Volume=%h/Data:/app/Data
 Environment=PYTHONUNBUFFERED=1
 
 [Service]
