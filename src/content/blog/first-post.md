@@ -1,16 +1,144 @@
 ---
-title: 'First post'
-description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 08 2022'
+title: 'Converting docker-compose to quadlet'
+description: ''
+pubDate: 'May 30 2025'
 heroImage: '/blog-placeholder-3.jpg'
 ---
+# Converting Docker Compose to Podman Quadlets
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+Podman Quadlets provide systemd integration for containers without requiring a daemon. This guide converts a Docker Compose service to a user-specific Quadlet with GitHub Container Registry authentication.
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+## Starting Docker Compose File
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+```yaml
+services:
+  mailpiece-annotator:
+    image: mailpiece-annotator:latest
+    ports:
+      - "8502:8501"
+    volumes:
+      - /home/ajones/avinas/userdata/users/ajones/annotator_data/Data:/app/Data
+      - /home/ajones/laxnas:/app/laxnas
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
+```
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+## Create the Quadlet File
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+Create the directory and file:
+
+```bash
+mkdir -p ~/.config/containers/systemd
+```
+
+Create `~/.config/containers/systemd/mailpiece-annotator.container`:
+
+```ini
+# ~/.config/containers/systemd/mailpiece-annotator.container
+
+[Unit]
+Description=Mailpiece Annotator Service
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=%t/containers
+
+[Container]
+Image=ghcr.io/alejones/llava-annotation-tool:latest
+Pull=always
+PublishPort=8502:8501
+Volume=/home/ajones/avinas/userdata/users/ajones/annotator_data/Data:/app/Data
+Volume=/home/ajones/laxnas:/app/laxnas
+Environment=PYTHONUNBUFFERED=1
+Restart=unless-stopped
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target default.target
+```
+
+## Key Differences
+
+| Docker Compose | Quadlet |
+|----------------|---------|
+| `ports` | `PublishPort` |
+| `volumes` (array) | `Volume` (one per line) |
+| `environment` | `Environment` |
+| `restart` | Handled by `[Service]` section |
+
+## Enable User Lingering
+
+Allow your user services to run without being logged in:
+
+```bash
+sudo loginctl enable-linger $USER
+```
+
+Verify lingering is enabled:
+
+```bash
+loginctl show-user $USER | grep Linger
+```
+
+## Authenticate with GitHub Container Registry
+
+Create a GitHub Personal Access Token with `read:packages` scope at: GitHub → Settings → Developer settings → Personal access tokens
+
+Login to GHCR:
+
+```bash
+podman login ghcr.io
+```
+
+Use your GitHub username and the PAT as the password.
+
+## Deploy the Service
+
+Reload systemd and start the service:
+
+```bash
+systemctl --user daemon-reload
+systemctl --user enable --now mailpiece-annotator.service
+```
+
+Check the status:
+
+```bash
+systemctl --user status mailpiece-annotator.service
+```
+
+View logs:
+
+```bash
+journalctl --user -u mailpiece-annotator.service -f
+```
+
+## Manage the Service
+
+Stop the service:
+
+```bash
+systemctl --user stop mailpiece-annotator.service
+```
+
+Restart the service:
+
+```bash
+systemctl --user restart mailpiece-annotator.service
+```
+
+Disable the service:
+
+```bash
+systemctl --user disable mailpiece-annotator.service
+```
+
+## Notes
+
+- The `Pull=always` option pulls the latest image on each start
+- User services with lingering start automatically at boot
+- Authentication credentials persist in `~/.config/containers/auth.json`
+- Quadlets automatically generate systemd service files from `.container` files
