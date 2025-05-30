@@ -143,13 +143,13 @@ This pulls newer images and restarts containers that have `AutoUpdate=registry` 
 
 You don't need to do any of these, but they might be helpful if you are running into trouble.
 
-Check that the container is running:
+#### Check that the container is running
 
 ```bash
 podman ps
 ```
 
-Check the status:
+#### Check the status:
 
 ```bash
 systemctl --user status my_container.service
@@ -188,7 +188,7 @@ May 30 17:27:40 vm1 systemd-my_container[19876]:
 ```
 
 
-View logs:
+#### View logs:
 
 ```bash
 journalctl --user -u my_container.service -f
