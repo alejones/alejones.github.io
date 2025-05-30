@@ -6,7 +6,7 @@ heroImage: '/4seals.webp'
 ---
 # Why do this?
 For the applications I run, a full k8s set up would be overkill. Yet, I'd like something more robust than using Podman Compose. For these cases I reach for quadlets.
-This allows for my containers to automatically start up, and restart. So far this set up has been very reliable for me.
+This allows for my containers to automatically start up and restart. So far this set up has been very reliable for me.
 
 Despite this I usually start with writing a docker compose file for quick testing. These are the steps I take to move to quadlets.
 
@@ -15,6 +15,7 @@ Despite this I usually start with writing a docker compose file for quick testin
 Podman Quadlets provide systemd integration for containers without requiring a daemon. This guide converts a Docker Compose service to a user-specific Quadlet with GitHub Container Registry authentication.
 
 ## Starting Docker Compose File
+This is a dummy compose file. It's very similar to what I usually use for simple Python apps.
 
 ```yaml
 services:
@@ -43,13 +44,8 @@ Create and open the container file.
 ```
 
 Paste in the the following data
-### Notes 
-- Use %h instead of absolute paths like /home/username/ for portability
-- AutoUpdate=registry enables automatic image updates with podman auto-update
 
 ```ini
-# ~/.config/containers/systemd/my_container.container
-
 [Container]
 Image=ghcr.io/alejones/my_container:latest
 AutoUpdate=registry
@@ -63,6 +59,9 @@ Restart=always
 [Install]
 WantedBy=default.target
 ```
+#### Notes 
+- Use %h instead of absolute paths like /home/username/ for portability
+- AutoUpdate=registry enables automatic image updates with podman auto-update
 
 ## Key Differences
 
