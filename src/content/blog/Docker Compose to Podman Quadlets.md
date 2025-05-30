@@ -213,3 +213,20 @@ Disable the service:
 ```bash
 systemctl --user disable my_container.service
 ```
+
+# Next thing I want to try
+Podlet is a Rust(!) tool to automatically turn compose files into quadlets. These are my quick notes to try later. Follow at your own peril.
+
+
+Podlet handles many of the tedious conversion details automatically and can generate multiple related files at once. It's especially useful for complex setups with multiple containers, networks, and volumes.
+
+## Convert Compose to Quadlet
+
+```bash
+# Convert your compose file directly
+podlet compose docker-compose.yml --file ~/.config/containers/systemd/
+
+# Or pipe a command to create a quadlet
+podlet podman run --name my-app -p 8501:8501 my-image:latest
+```
+
