@@ -1,5 +1,5 @@
 ---
-title: 'Converting docker-compose to quadlet'
+title: 'Move from docker-compose to quadlet'
 description: ''
 pubDate: 'May 30 2025'
 heroImage: '/4seals.webp'
