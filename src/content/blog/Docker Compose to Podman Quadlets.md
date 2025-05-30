@@ -62,6 +62,8 @@ WantedBy=default.target
 #### Notes 
 - Use %h instead of absolute paths like /home/username/ for portability
 - AutoUpdate=registry enables automatic image updates with podman auto-update
+- The `Pull=always` option pulls the latest image on each start
+
 
 ## Key Differences
 
@@ -196,10 +198,3 @@ Disable the service:
 ```bash
 systemctl --user disable my_container.service
 ```
-
-## Notes
-
-- The `Pull=always` option pulls the latest image on each start
-- User services with lingering start automatically at boot
-- Authentication credentials persist in `~/.config/containers/auth.json`
-- Quadlets automatically generate systemd service files from `.container` files
