@@ -2,7 +2,7 @@
 title: 'Converting docker-compose to quadlet'
 description: ''
 pubDate: 'May 30 2025'
-heroImage: '/blog-placeholder-3.jpg'
+heroImage: '/blog-placeholder-1.jpg'
 ---
 # Converting Docker Compose to Podman Quadlets
 
