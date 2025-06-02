@@ -139,6 +139,29 @@ podman auto-update
 
 This pulls newer images and restarts containers that have `AutoUpdate=registry` set.
 
+If there is an update, you'll see the container getting pulled and a note that it has been updated.
+
+```bash
+podman auto-update
+Trying to pull ghcr.io/alejones/myRepo/my_container:latest...
+Getting image source signatures
+Copying blob 8045c9806d81 skipped: already exists  
+Copying blob 49ccfcf26a76 skipped: already exists  
+Copying blob 61320b01ae5e skipped: already exists  
+Copying blob 7a1cb8b88221 skipped: already exists  
+Copying blob 6a3674a456ea skipped: already exists  
+Copying blob 8991c9200d62 skipped: already exists  
+Copying blob 157fcaa91dcb skipped: already exists  
+Copying blob 88feadc186aa skipped: already exists  
+Copying blob f15096e3c9ed skipped: already exists  
+Copying blob 2505926d570d done   | 
+Copying blob be1274d3cce0 skipped: already exists  
+Copying config 47e63d279d done   | 
+Writing manifest to image destination
+            UNIT                         CONTAINER                                   IMAGE                                                   POLICY      UPDATED
+            mailpiece-annotator.service  cb3948b23fb9 (systemd-mailpiece-annotator)  ghcr.io/alejones/someContainer:latest           registry    false
+            slm-testing.service          7f427f80ba98 (systemd-slm-testing)          ghcr.io/alejones/myRepo/my_container:latest  registry    true
+```
 ## Did it work?
 
 You don't need to do any of these, but they might be helpful if you are running into trouble.
@@ -215,7 +238,7 @@ systemctl --user disable my_container.service
 ```
 
 # Next thing I want to try
-Podlet is a Rust(!) tool to automatically turn compose files into quadlets. These are my quick notes to try later. Follow at your own peril.
+Podlet is a tool to automatically turn compose files into quadlets. These are my quick notes to try later. Follow at your own peril.
 
 
 Podlet handles many of the tedious conversion details automatically and can generate multiple related files at once. It's especially useful for complex setups with multiple containers, networks, and volumes.
