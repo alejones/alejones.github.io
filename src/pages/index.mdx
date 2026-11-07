@@ -3,7 +3,11 @@ layout: '../layouts/MainLayout.astro'
 title: "Not that Alex Jones's blog"
 description: "intermittent ramblings"
 ---
-  
+import { Image } from 'astro:assets';
+import photo from '../assets/cover_photo.jpg';
+
+<Image src={photo} alt="Mountain view in the PNW" width={800} />
+
 
 ## Hey there! 👋
   
