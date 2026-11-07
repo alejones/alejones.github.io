@@ -3,6 +3,7 @@ title: 'Move from docker-compose to quadlet'
 description: ''
 pubDate: 'May 30 2025'
 heroImage: '/4seals.webp'
+tags: ['podman','quadlets']
 ---
 # Why do this?
 For the applications I run, a full Kubernetes setup would be overkill, but I want something more robust than Podman Compose. I think Quadlets is a sweet spot for ease of use and reliability.
