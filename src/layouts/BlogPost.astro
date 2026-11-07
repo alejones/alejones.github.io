@@ -24,7 +24,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags } = Astro.prop
 			.hero-image {
 				width: 100%;
 			}
-			.hero-image img {
+			.hero-image :global(img) {
 				display: block;
 				margin: 0 auto;
 				border-radius: 12px;
