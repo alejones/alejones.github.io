@@ -5,13 +5,11 @@ pubDate: 'Nov 7 2026'
 heroImage: '../../assets/logs_and_lake.jpg'
 tags: ['swimming']
 ---
-# Will and attention 
-
 I listen to a lot of podcasts. Probably too many. Often in conversation I'll have some fact that I learned from one. Usually I don't keep coming back to an episode and thinking about it. A recent-ish episode of Search Engine has stuck with me. 
 
 I'd highly recommend you give [Unreliable Narrator](https://www.searchengine.show/unreliable-narrator) a listen. I should buy the [book](https://www.penguinrandomhouse.com/books/778492/will-and-attention-by-meghan-ogieblyn/) from the guest Meghan O’Gieblyn.
 
-## What the episode is about
+# What the episode is about
 Disclaimer: I haven't re-listened to this episode. You are getting my recollection from my poor memory.
 
 Meghan O’Gieblyn speaks about her addiction and what it has taken for her to get to the healthier place she is at now. One of the things she talks about is the difference between will and attention.
@@ -22,7 +20,7 @@ Meghan argues that overcoming a challenge, in her case addiction, is less about 
 
 I'm going to listen again. I really think it's worth your time as well. If my memory is way off, send me an email and tell me. I would love to talk about it.
 
-## How does this apply to swimming
+# How does this apply to swimming
 I have been coaching for 15 years. I think the entire time people have told me, some version of "Kids these days". I find it exhausting. It's rarely followed by something helpful. It's an easy out when things aren't going how you want. 
 
 Lane 2 can't read the pace clock and never leaves on time. Kids these days.
@@ -41,7 +39,7 @@ Do you make your practice/group/program special? Could a kid tell you why it is?
 
 If athletes care about how many strokes they are taking, they will count without you asking. Do you talk about why being efficient is important? Do think being fast is all that is important?
 
-### Why have I been thinking about will and attention?
+# Why have I been thinking about will and attention?
 
 I'll admit, my favorite kids are the ones who come to practice and when I (metaphorically) say jump, they ask how high. I think these are the most motivated, easiest to coach, and in this context, strongest willed. Without thinking about it, they are fully present.
 
